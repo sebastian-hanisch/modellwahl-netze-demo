@@ -1,4 +1,4 @@
-"""Kern: Netzgeneratoren, sieben Zusammenfassungsgrößen, k-nächste-Nachbarn-Klassifikator und Anpassungsprüfung (Posterior-Predictive-Stil).
+"""Kern: Netzgeneratoren, sieben Zusammenfassungsgrößen, k-nächste-Nachbarn-Klassifikator und Anpassungsprüfung (parametrischer Bootstrap mit eingesetzten Parametern).
 
 Sieben Größen je Netz: größter Grad / mittlerer Grad, Varianz / Mittel des Grades, Transitivität, Grad-Assortativität, mittlere Weglänge in der größten Komponente,
 Modularität der gierigen Zerlegung (Clauset, Newman, Moore) und Anteil der größten Komponente.

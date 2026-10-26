@@ -116,7 +116,7 @@ def verdict_choice(probs, passes) -> tuple[str, str]:
         return "success", f"{head}, und nur dieses Modell besteht die Prüfung: Klassifikator und Prüfung stimmen überein."
     if top in passes:
         others = [p for p in passes if p != top]
-        return "info", f"{head}. Die Prüfung lässt auch {names(others)} zu: die sieben Größen trennen diese Modelle hier nicht."
+        return "info", f"{head}. Die Prüfung lässt auch {names(others)} zu: die Prüfung trennt diese Modelle hier nicht."
     return "warning", f"{head}, aber dieses Modell besteht die Prüfung nicht; bestanden haben {names(passes)}. Klassifikator und Prüfung widersprechen sich."
 
 

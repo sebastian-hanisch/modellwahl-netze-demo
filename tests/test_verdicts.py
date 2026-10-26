@@ -26,6 +26,7 @@ def test_verdict_choice_when_only_the_top_model_passes():
 def test_verdict_choice_when_the_top_model_and_others_pass():
     kind, text = ev.verdict_choice(probs(ba=0.73, config=0.27), ("config", "ba"))
     assert kind == "info" and "**Barabási–Albert** (73 % der nächsten Nachbarn)" in text and "auch Konfigurationsmodell zu" in text
+    assert "die Prüfung trennt diese Modelle hier nicht" in text and "sieben Größen trennen" not in text        # die Aussage gilt der Prüfung, nicht den Größen
     kind, text = ev.verdict_choice(probs(er=0.5, ba=0.5), ("er", "config", "sbm"))                 # Gleichstand: der zuerst genannte
     assert kind == "info" and "**Erdős–Rényi** (50 %" in text and "Konfigurationsmodell und Blockmodell zu" in text
 

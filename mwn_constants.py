@@ -78,7 +78,7 @@ PRESETS = {
 }
 PRESET_HELP = {
     "Watts–Strogatz, sauber erkannt": "Ein Watts–Strogatz-Netz mit 150 Knoten: der Klassifikator nennt es zu 100 %, und nur dieses Modell besteht die Prüfung. Der klare Fall.",
-    "Barabási–Albert: kaum von Konfiguration zu trennen": "Ein Barabási–Albert-Netz: der Klassifikator nennt Barabási–Albert (53 %) und das Konfigurationsmodell (47 %), und beide Modelle bestehen die Prüfung. Gleiche Gradverteilung, die sieben Größen trennen sie nicht.",
+    "Barabási–Albert: kaum von Konfiguration zu trennen": "Ein Barabási–Albert-Netz: der Klassifikator nennt Barabási–Albert (53 %) und das Konfigurationsmodell (47 %), und beide Modelle bestehen die Prüfung. Gleiche Gradverteilung; der Klassifikator trennt die beiden hier kaum.",
     "Les Misérables: nach Zwang BA?": "Ein echtes Netz mit 77 Knoten: der Klassifikator nennt Barabási–Albert (60 %), doch kein Modell der Liste besteht die Prüfung.",
     "Karateclub: nach Zwang BA?": "Das Netz mit 34 Mitgliedern: der Klassifikator nennt Barabási–Albert (53 %), doch kein Modell der Liste besteht die Prüfung.",
     "Holme–Kim-Netz: passt kein Modell": "Ein Barabási–Albert-Netz mit Dreiecksschluss: Hubs und viele Dreiecke zugleich. Keines der sechs Modelle erzeugt beides; der Klassifikator nennt trotzdem das Konfigurationsmodell (60 %), und kein Modell besteht die Prüfung.",

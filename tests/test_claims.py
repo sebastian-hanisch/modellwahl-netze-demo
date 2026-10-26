@@ -47,6 +47,11 @@ def test_barabasi_albert_preset_cannot_be_told_from_the_configuration_model():
     assert a.p_all[IDX["ba"]] == pytest.approx(0.344, abs=0.05) and a.p_all[IDX["config"]] == pytest.approx(0.115, abs=0.05)
 
 
+def test_the_preset_help_limits_the_confusion_to_the_classifier():
+    text = C.PRESET_HELP["Barabási–Albert: kaum von Konfiguration zu trennen"]
+    assert "der Klassifikator trennt die beiden hier kaum" in text and "Münzwurf" not in text and "sieben Größen trennen" not in text
+
+
 def test_real_network_presets_get_an_answer_but_pass_no_model():
     les = preset("Les Misérables: nach Zwang BA?")
     assert les.n == 77 and les.top == "ba" and les.probs.max() == pytest.approx(0.6) and les.passes == () and les.p_all.min() == pytest.approx(1 / 61)
@@ -70,7 +75,7 @@ def test_the_clear_families_are_recognised_and_their_own_model_passes(recognitio
 def test_barabasi_albert_and_configuration_model_are_confused(recognition):
     ba, cfg = recognition["ba"], recognition["config"]
     assert ba["runs"] == cfg["runs"] == 8 and ba["named"] == cfg["named"] == ("ba", "config")
-    assert 3 <= ba["right"] <= 6 and 4 <= cfg["right"] <= 7                         # kaum besser als Raten
+    assert 3 <= ba["right"] <= 6 and 4 <= cfg["right"] <= 7                         # dieser Klassifikator ist kaum besser als Raten (10 von 16); das gilt nicht für die sieben Größen insgesamt
     assert ba["own"] == 8 and cfg["own"] >= 6 and ba["none"] == cfg["none"] == 0     # das wahre Modell besteht (fast) immer
 
 

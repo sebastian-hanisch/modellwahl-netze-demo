@@ -58,11 +58,24 @@ st.markdown(
 Vorgabe: ein Netz, gesucht: die Zufallsfamilie, aus der es stammen könnte. Die Demo beantwortet das auf **zwei Wegen** und stellt sie nebeneinander.
 Ein **Klassifikator** über sieben Zusammenfassungsgrößen (Grad, Dreiecke, Weglänge, Gemeinschaften …) **muss immer antworten**, auch wenn das Netz in keine der sechs Familien gehört.
 Eine **Anpassungsprüfung** passt dagegen jedes Modell an das Netz an, zieht Netze daraus und fragt, ob das beobachtete Netz darin unauffällig liegt; sie darf „keines davon“ sagen.
-Neuntes Stück der Linie „Netzmodelle“ (Zusammenfluss); die Familien stammen aus `zufallsgraph-demo`, `konfigurationsmodell-demo`, `wachstumsmodelle-demo`, `raeumliche-netze-demo` und dem Blockmodell aus `stochastic-block-demo`.
+Neuntes Stück der Linie „Netzmodelle“ (Zusammenfluss); die Familien stammen aus `zufallsgraph-demo`, `konfigurationsmodell-demo`, `wachstumsmodelle-demo`, `raeumliche-netze-demo` und dem Blockmodell aus `stochastic-block-demo`. Wer die Frage zuerst ohne Fachbegriffe verstehen will, öffnet „💬 In einfachen Worten“.
 
 Weiter unten: 🔬 **Messreihen** (Verwechslung, Prüfung, echte Netze), 🚧 **Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/modellwahl-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Gegeben ist ein Netz, gefragt ist, nach welcher Zufallsregel es entstanden sein könnte. Die Demo kennt **sechs Familien** und misst an jedem Netz **sieben einfache Größen**, etwa wie ungleich die Verbindungszahlen sind, wie viele Dreiecke es gibt und wie lang die Wege im Mittel sind.
+
+Ein **Klassifikator** sucht unter vielen Netzen bekannter Herkunft die ähnlichsten und nennt deren häufigste Familie. Er **antwortet immer**, auch wenn das Netz in keine Familie gehört. Eine **Anpassungsprüfung** passt dagegen jede Familie an das Netz an, würfelt daraus Netze und fragt, ob das beobachtete Netz darunter unauffällig liegt. Sie darf „keines davon“ sagen. Bestanden heißt aber nicht, dass die Familie das Netz erzeugt hat.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/modellwahl-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 
 with st.expander("So läuft es", expanded=True):
     st.markdown(
@@ -95,7 +108,7 @@ sync_query_params({"network_select": network, "n_slider": int(n), "k_slider": ro
 
 settings = Settings(network=network, n=int(n), k=round(float(k), 1), sims=int(sims), seed=int(seed))
 if network in C.REAL:
-    st.info("Echtes Netz: Knotenzahl und Grad kommen aus den Daten, die Regler „Knoten“ und „Mittlerer Grad“ gelten hier nicht. Der Zufalls-Seed steuert nur die Trainingsnetze der Prüfung.")
+    st.info("Echtes Netz: Knotenzahl und Grad kommen aus den Daten, die Regler „Knoten“ und „Mittlerer Grad“ gelten hier nicht. Der Zufalls-Seed steuert nur die gezogenen Netze der Prüfung.")
 with st.spinner("Messe das Netz, trainiere den Klassifikator und prüfe die sechs Modelle …"):
     a = _analysis(settings)
 
@@ -195,10 +208,10 @@ st.markdown(
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
 | **Das Netz stammt aus einer der sechs Familien** | Der Klassifikator antwortet trotzdem und nennt die ähnlichste; nur die Prüfung kann „keines davon“ sagen. | diese Demo |
-| **Die sieben Größen genügen** | Netze, die in allen sieben Größen übereinstimmen, aber anders gebaut sind, sind nicht zu trennen (Barabási–Albert gegen Konfigurationsmodell mit denselben Graden). | diese Demo |
+| **Die sieben Größen genügen** | Netze, die in allen sieben Größen übereinstimmen, sind mit ihnen nicht zu trennen. Barabási–Albert und Konfigurationsmodell haben dieselben Grade, unterscheiden sich aber noch in Dreiecken und Weglängen; der eingebaute Klassifikator (k nächste Nachbarn) nutzt das nur schwach, ein anderes Verfahren auf denselben Größen trennt sie besser (siehe README). | diese Demo |
 | **Ein flexibles Modell passt fast immer** | Das Blockmodell wird an die gefundene Zerlegung des Netzes angepasst und kann deshalb viel absorbieren; „Prüfung bestanden“ heißt nicht „so ist das Netz entstanden“. | `stochastic-block-demo` |
 | **Der p-Wert der Prüfung ist genau** | Die Parameter kommen aus denselben Daten wie das Netz, das geprüft wird: die Prüfung ist eher zu nachsichtig, und bei wenigen gezogenen Netzen sind die p-Werte grob (kleinster Wert 1 / (Zahl + 1)). | diese Demo |
-| **Kleine Netze sind prüfbar** | Bei 15 Knoten besteht fast jedes Modell: nichts zu unterscheiden heißt nicht, dass alle stimmen. | diese Demo |
+| **Kleine Netze sind prüfbar** | Bei 15 Knoten bestehen mehrere Modelle (beim Florentiner Netz vier von sechs): nichts zu unterscheiden heißt nicht, dass alle stimmen. | diese Demo |
 | **Zufällige Parameter der Trainingsnetze decken das Netz ab** | Liegt der Parameter außerhalb der Bereiche (Watts–Strogatz p von 0,02 bis 0,3, Blockmodell Verhältnis 6 bis 40), kann der Klassifikator danebenliegen. | diese Demo |
 """
 )
@@ -206,6 +219,22 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/modellwahl-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Ein Netz mit $n$ Knoten und $m$ Kanten, mittlerer Grad $k = 2m / n$.
+
+| Symbol | Bedeutung |
+|---|---|
+| $s \in \mathbb{R}^7$ | die sieben Zusammenfassungsgrößen des beobachteten Netzes |
+| $\hat\theta_M$ | die an das Netz angepassten Parameter des Modells $M$ |
+| $s^{(1)}, \dots, s^{(R)}$ | Größen von $R$ aus $M(\hat\theta_M)$ gezogenen Netzen (die Wolke) |
+| $D(x; S)$ | Mahalanobis-Abstand von $x$ zum Mittel der Menge $S$ (Kovarianz zur Diagonale hin geschrumpft) |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/modellwahl-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Lesehilfe.** Ein Netz mit $n$ Knoten und $m$ Kanten, mittlerer Grad $k = 2m / n$.
@@ -222,7 +251,7 @@ $$\hat P(c) = \frac{1}{15} \, \#\{\text{unter den 15 nächsten Trainingsnetzen i
 
 **Anpassungsprüfung.** Die Parameter: Erdős–Rényi $m$; Konfigurationsmodell die Gradfolge (Kantentausch); Barabási–Albert $m_{\mathrm{BA}} = k/2$; Watts–Strogatz $k$ und $p$ aus der Transitivität $C$ mit
 $$\hat p = 1 - \left( \frac{C}{C_0} \right)^{1/3}, \qquad C_0 = \frac{3 (K - 1)}{2 (2K - 1)}, \quad K = \frac{k}{2};$$
-geometrisch der Radius $r$ mit $n \, \Pr[\text{Abstand} \le r] = k$ und $\Pr[\text{Abstand} \le r] = \pi r^2 - \tfrac{8}{3} r^3 + \tfrac{1}{2} r^4$ im Einheitsquadrat; Blockmodell die Zerlegung der gierigen Modularitätsmaximierung und die Dichten zwischen den Gruppen.
+geometrisch der Radius $r$ mit $(n - 1) \, \Pr[\text{Abstand} \le r] = k$ und $\Pr[\text{Abstand} \le r] = \pi r^2 - \tfrac{8}{3} r^3 + \tfrac{1}{2} r^4$ im Einheitsquadrat; Blockmodell die Zerlegung der gierigen Modularitätsmaximierung und die Dichten zwischen den Gruppen.
 Der Gesamt-p-Wert ist
 $$p = \frac{1 + \#\{ j : D(s^{(j)}; S \setminus s^{(j)}) \ge D(s; S) \}}{R + 1}.$$
 Je Größe gilt der zweiseitige empirische p-Wert $2 \min\{(1 + \#\{\ge\}) / (R + 1),\ (1 + \#\{\le\}) / (R + 1)\}$.
